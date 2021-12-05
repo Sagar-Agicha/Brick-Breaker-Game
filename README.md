@@ -1,2 +1,2 @@
 # NBBG
-Change the pathname for sound n img 
+Change the pathname of sound n img 
