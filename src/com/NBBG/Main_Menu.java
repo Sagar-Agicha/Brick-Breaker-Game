@@ -6,12 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Objects;
 
 public class Main_Menu implements ActionListener, KeyListener {
 
     Frame fa;
-    Button b_easy,b_med,b_hard,b4,b5,b_m,b6;
+    Button b_easy,b_med,b_hard,b4,b5,b_m,b6,b_result,b_end;
     JComboBox<String> cb1;
     Label l1,l2,l3,l4,l5,l6,l7,l8,l9,l0,l11,l12;
     String[] number = {"None","6","10","15","25","30"};
@@ -209,11 +212,18 @@ public class Main_Menu implements ActionListener, KeyListener {
         fa.add(b5);
 
         b6 = new Button("Contact Us");
-        b6.setLocation(215,605);
+        b6.setLocation(50,605);
         b6.setSize(90,40);
         b6.addActionListener(this);
         b6.setBackground(Color.red);
         fa.add(b6);
+
+        b_result = new Button("RESULTS");
+        b_result.setLocation(220,605);
+        b_result.setSize(90,40);
+        b_result.addActionListener(this);
+        b_result.setBackground(Color.red);
+        fa.add(b_result);
 
         lh = new Label("-----------------------------------------------------------------");
         lh.setLocation(0, 660);
@@ -227,12 +237,19 @@ public class Main_Menu implements ActionListener, KeyListener {
         li.setFont(new Font("Verdana", Font.PLAIN, 30));
         fa.add(li);
 
+        b_end = new Button("Exit");
+        b_end.setLocation(400,605);
+        b_end.setSize(90,40);
+        b_end.addActionListener(this);
+        b_end.setBackground(Color.red);
+        fa.add(b_end);
+
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b_easy) {
 
-            Custom ca = new Custom(3,1,3,10,3, 0,1,"Image/bg.jpg","1","Sound/Fairy.wav");
+            Custom ca = new Custom(3,1,3,10,3, 0,1,0,"Image/bg.jpg","1","Sound/Fairy.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);
@@ -242,7 +259,7 @@ public class Main_Menu implements ActionListener, KeyListener {
 
         if (e.getSource() == b_med) {
 
-            Custom ca = new Custom(2,3,6,8,6,1,1,"Image/bg3.jpg","2","Sound/Naruto1.wav");
+            Custom ca = new Custom(2,3,6,8,6,1,1,1,"Image/bg3.jpg","2","Sound/Naruto1.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);
@@ -252,7 +269,7 @@ public class Main_Menu implements ActionListener, KeyListener {
 
         if (e.getSource() == b_hard) {
 
-            Custom ca = new Custom(4,4,16,6,12,2,1,"Image/bg1.png","3","Sound/Naruto2.wav");
+            Custom ca = new Custom(4,4,16,6,12,2,1,2,"Image/bg1.png","3","Sound/Naruto2.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);
@@ -262,7 +279,7 @@ public class Main_Menu implements ActionListener, KeyListener {
 
         if (e.getSource() == b4) {
 
-            Custom ca = new Custom(4,6,26,4,26,3,1,"Image/bg.jpg","4","Sound/Naruto2.wav");
+            Custom ca = new Custom(4,6,26,4,26,3,1,3,"Image/bg.jpg","4","Sound/Naruto2.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);
@@ -272,7 +289,7 @@ public class Main_Menu implements ActionListener, KeyListener {
 
         if (e.getSource() == b5) {
 
-            Custom ca = new Custom(5,7,35,2,35,4,1,"Image/bg1.png","5","Sound/Naruto2.wav");
+            Custom ca = new Custom(5,7,35,2,35,4,1,4,"Image/bg1.png","5","Sound/Naruto2.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);
@@ -282,6 +299,27 @@ public class Main_Menu implements ActionListener, KeyListener {
 
         if (e.getSource() == b6){
             new contact_us();
+        }
+
+        if (e.getSource() == b_result){
+            try {
+                new Result();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        if(e.getSource() == b_end){
+            try {
+                FileWriter ree = new FileWriter("Data/Java.txt");
+                ree.write("");
+                ree.close();
+            } catch (FileNotFoundException fx) {
+                System.out.println("File Not Found");
+            } catch (IOException fx) {
+                fx.printStackTrace();
+            }
+            System.exit(0);
         }
 
         if (e.getSource() == b_m) {
@@ -323,7 +361,7 @@ public class Main_Menu implements ActionListener, KeyListener {
                 g = 30;
             }
 
-            Custom ca = new Custom(c,d,g,7,d,5,2,"Image/bg3.jpg","Custom","Sound/Naruto2.wav");
+            Custom ca = new Custom(c,d,g,4,d,5,2,5,"Image/bg3.jpg","Custom","Sound/Naruto2.wav");
             JFrame ff = new JFrame();
             ff.setSize(550,700);
             ff.setVisible(true);

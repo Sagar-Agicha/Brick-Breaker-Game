@@ -6,11 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 public class Custom extends JPanel implements ActionListener, KeyListener {
 
-    int p,a = 0;
+    int p,a = 0,res;
+    String rel;
     int row;
     int col;
     int brick;
@@ -54,7 +58,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
     int delay; // to control the speed.
     MapGen map;
 
-    public Custom(int row,int col,int blocks,int delay,int bricks,int next,int p,String path_name,String name,String filepath7) {
+    public Custom(int row,int col,int blocks,int delay,int bricks,int next,int p,int res,String path_name,String name,String filepath7) {
 
         this.total_bricks = blocks;
         this.row = row;
@@ -66,6 +70,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
         this.next = next;
         this.p = p;
         this.filepath6 = filepath7;
+        this.res = res;
 
         img = Toolkit.getDefaultToolkit().getImage(path_name);
         music.play_music(filepath5);
@@ -116,6 +121,38 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
                 time2 = dd_min2 + " : " + dd_sec2;
             }
         });
+    }
+
+    public void result(){
+        if(res == 0){
+            rel = "Level 1";
+        }
+        else if(res == 1){
+            rel = "Level 2";
+        }
+        else if(res == 2){
+            rel = "Level 3";
+        }
+        else if(res == 3){
+            rel = "Level 4";
+        }
+        else if(res == 4){
+            rel = "Level 5";
+        }
+        else if(res == 5){
+            rel = "Custom";
+        }
+
+        try{
+            FileWriter ree = new FileWriter("Data/Java.txt",true);
+            ree.write(rel + "\t" + time1 + "\n");
+            ree.close();
+        }
+        catch(FileNotFoundException fx){
+            System.out.println("File Not Found");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void Right_slide() {
@@ -274,6 +311,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             }
             music.play_music(filepath1);
             music1.clip.stop();
+            result();
         }
         g.dispose();
     }
@@ -401,7 +439,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
 
             if(next == 0){
 
-                Custom ca = new Custom(2,3,6,8,6,1,1,"Image/bg3.jpg","2","Sound/Naruto.wav");
+                Custom ca = new Custom(2,3,6,8,6,1,1,2,"Image/bg3.jpg","2","Sound/Naruto.wav");
                 JFrame ff = new JFrame();
                 ff.setSize(550,700);
                 ff.setVisible(true);
@@ -410,7 +448,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             }
             else if(next == 1){
 
-                Custom ca = new Custom(4,4,16,8,16,2,1,"Image/bg.jpg","3","Sound/Naruto2.wav");
+                Custom ca = new Custom(4,4,16,8,16,2,1,3,"Image/bg.jpg","3","Sound/Naruto2.wav");
                 JFrame ff = new JFrame();
                 ff.setSize(550,700);
                 ff.setVisible(true);
@@ -418,14 +456,14 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
 
             }
             else if(next == 2){
-                Custom ca = new Custom(4,6,24,6,24,3,1,"Image/bg.jpg","4","Sound/Naruto2.wav");
+                Custom ca = new Custom(4,6,24,6,24,3,1,4,"Image/bg.jpg","4","Sound/Naruto2.wav");
                 JFrame ff = new JFrame();
                 ff.setSize(550,700);
                 ff.setVisible(true);
                 ff.add(ca);
             }
             else if(next == 3){
-                Custom ca = new Custom(5,7,35,2,35,4,1,"Image/bg.jpg","5","Sound/Naruto2.wav");
+                Custom ca = new Custom(5,7,35,2,35,4,1,5,"Image/bg.jpg","5","Sound/Naruto2.wav");
                 JFrame ff = new JFrame();
                 ff.setSize(550,700);
                 ff.setVisible(true);
