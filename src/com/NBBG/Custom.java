@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.text.DecimalFormat;
 
 public class Custom extends JPanel implements ActionListener, KeyListener {
 
@@ -14,6 +15,13 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
     int col;
     int brick;
     int next;
+    public String time1 = "00:00",time2 = "02:00";
+    int sec1 = 0;
+    int min1 = 0;
+    String dd_min1,dd_sec1;
+    int sec2 = 0;
+    int min2 = 2;
+    String dd_min2,dd_sec2;
     public int scores = 0;
     int total_bricks;
     int life = 2;
@@ -26,6 +34,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
     boolean play;
     JLabel bg;
     public Image img;
+    DecimalFormat dFormat = new DecimalFormat("00");
 
     String path_name;
 
@@ -36,11 +45,12 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
     String filepath5 = "Sound/Test.wav";
     String filepath6;
 
-
     sound music = new sound();
     sound music1 = new sound();
 
     Timer timer;
+    Timer timer1;
+    Timer timer2;
     int delay; // to control the speed.
     MapGen map;
 
@@ -63,13 +73,50 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+
         timer = new Timer(delay,this);
         timer.start();
+        stopwatch();
+        countdown();
         bg = new JLabel(new ImageIcon(path_name));
         add(bg);
         music1.play_music(filepath6);
     }
 
+    public void stopwatch(){
+        timer1 = new Timer(1000, e -> {
+            sec1++;
+            dd_sec1 = dFormat.format(sec1);
+            dd_min1 = dFormat.format(min1);
+            time1 = dd_min1 + " : " + dd_sec1;
+
+            if (sec1 == 60) {
+                sec1 = 0;
+                min1++;
+                dd_sec1 = dFormat.format(sec1);
+                dd_min1 = dFormat.format(min1);
+                time1 = dd_min1 + " : " + dd_sec1;
+            }
+        });
+    }
+
+    public void countdown() {
+        timer2 = new Timer(1000, e -> {
+
+            sec2--;
+            dd_sec2 = dFormat.format(sec2);
+            dd_min2 = dFormat.format(min2);
+            time2 = dd_min2 + " : " + dd_sec2;
+
+            if (sec2 == -1) {
+                sec2 = 59;
+                min2--;
+                dd_sec2 = dFormat.format(sec2);
+                dd_min2 = dFormat.format(min2);
+                time2 = dd_min2 + " : " + dd_sec2;
+            }
+        });
+    }
 
     public void Right_slide() {
         play = true;
@@ -103,6 +150,11 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.white);
         g.fillOval(ball_pos_X, ball_pos_Y, 25, 25);
 
+        //Timer
+        g.setColor(Color.white);
+        g.setFont(new Font("gill",Font.ITALIC,20));
+        g.drawString("Time Left : " + time2 ,225,30);
+
         //score
         g.setColor(Color.white);
         g.setFont(new Font("gill",Font.ITALIC,20));
@@ -116,7 +168,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
         // life
         g.setColor(Color.white);
         g.setFont(new Font("gill",Font.ITALIC,20));
-        g.drawString("Life : " + life ,250,30);
+        g.drawString("Life : " + life ,150,30);
 
         if(ball_pos_Y > 670)
         {
@@ -145,6 +197,35 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
 
             g.setColor(Color.white);
             g.setFont(new Font("serif",Font.BOLD, 30));
+            g.drawString("You Lost", 200,350);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif",Font.BOLD, 20));
+            g.drawString("Press (Enter) to Restart", 150,400);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif",Font.BOLD, 20));
+            g.drawString("Press (BackSpace) to Return to the Main Menu", 60,440);
+
+            life = 0;
+            music1.clip.stop();
+        }
+
+        // Game Over (Time Over)
+        if(min2 == 0 && sec2 == 0)
+        {
+            music.play_music(filepath2);
+
+            play = false;
+            ball_dir_X = 0;
+            ball_dir_Y = 0;
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif",Font.BOLD, 30));
+            g.drawString("Game Over, Scores: " + scores, 110,300);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif",Font.BOLD, 30));
             g.drawString("You Lost", 180,350);
 
             g.setColor(Color.white);
@@ -154,9 +235,9 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             g.setColor(Color.white);
             g.setFont(new Font("serif",Font.BOLD, 20));
             g.drawString("Press (BackSpace) to Return to the Main Menu", 60,440);
+
             life = 0;
             music1.clip.stop();
-
         }
 
         // Game Win
@@ -176,11 +257,15 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
 
             g.setColor(Color.white);
             g.setFont(new Font("serif",Font.BOLD, 20));
-            g.drawString("Press (Enter) to Restart", 150,350);
+            g.drawString("Press (Enter) to Restart", 170,350);
 
             g.setColor(Color.white);
             g.setFont(new Font("serif",Font.BOLD, 20));
             g.drawString("Press (BackSpace) to Return to the Main Menu", 60,390);
+
+            g.setColor(Color.white);
+            g.setFont(new Font("serif",Font.BOLD, 30));
+            g.drawString("Time Taken = " + time1, 120,250);
 
             if(p == 1) {
                 g.setColor(Color.white);
@@ -190,7 +275,6 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             music.play_music(filepath1);
             music1.clip.stop();
         }
-
         g.dispose();
     }
 
@@ -198,9 +282,9 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
         timer.start();
 
         if (play) {
-            if (new Rectangle(ball_pos_X, ball_pos_Y, 20, 20).intersects(new Rectangle(playerX, 645, 110, 10))) {
-                ball_dir_Y = -ball_dir_X;
-                ball_dir_X = 2;
+            if (new Rectangle(ball_pos_X, ball_pos_Y, 20, 20).intersects(new Rectangle(playerX, 645, 30, 8))) {
+                ball_dir_Y = -ball_dir_Y;
+                ball_dir_X = -2;
                 music.play_music(filepath4);
             }
             else if(new Rectangle(ball_pos_X, ball_pos_Y, 20, 20).intersects(new Rectangle(playerX + 70, 645, 30, 8)))
@@ -285,6 +369,8 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             if (!play) {
                 play = true;
                 scores = 0;
+                timer1.start();
+                timer2.start();
                 ball_pos_X = playerX + 50;
                 ball_pos_Y = 615;
                 ball_dir_X = -1;
@@ -307,6 +393,8 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             ball_dir_X = -1;
             ball_dir_Y = -2;
             map = new MapGen(row, col);
+            sec1 = min1 = sec2 = 0;
+            min2 = 2;
         }
 
         if (e.getKeyCode() == KeyEvent.VK_TAB) {
