@@ -1,2 +1,3 @@
-Level 2	00 : 34
-Level 1	00 : 08
+Levels	Time Taken	Score
+
+Level 3 	  01 : 19 	 	 75

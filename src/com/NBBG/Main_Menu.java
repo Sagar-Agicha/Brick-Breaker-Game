@@ -16,7 +16,7 @@ public class Main_Menu implements ActionListener, KeyListener {
     Frame fa;
     Button b_easy,b_med,b_hard,b4,b5,b_m,b6,b_result,b_end;
     JComboBox<String> cb1;
-    Label l1,l2,l3,l4,l5,l6,l7,l8,l9,l0,l11,l12;
+    Label l1,l2,l3,l4,l5,l6,l7,l8,l9,l0,l11,l12,bg;
     String[] number = {"None","6","10","15","25","30"};
     Label la,lb,lc,ld,le,lf,lg,lh,li,lj,lk;
     public String a;
@@ -302,17 +302,13 @@ public class Main_Menu implements ActionListener, KeyListener {
         }
 
         if (e.getSource() == b_result){
-            try {
-                new Result();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            new Result();
         }
 
         if(e.getSource() == b_end){
             try {
                 FileWriter ree = new FileWriter("Data/Java.txt");
-                ree.write("");
+                ree.write("Levels\tTime Taken\tScore\n");
                 ree.close();
             } catch (FileNotFoundException fx) {
                 System.out.println("File Not Found");

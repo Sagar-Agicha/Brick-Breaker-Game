@@ -145,7 +145,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
 
         try{
             FileWriter ree = new FileWriter("Data/Java.txt",true);
-            ree.write(rel + "\t" + time1 + "\n");
+            ree.write("\n" + rel + " \t  " + time1 + " \t \t " + scores);
             ree.close();
         }
         catch(FileNotFoundException fx){
@@ -216,6 +216,7 @@ public class Custom extends JPanel implements ActionListener, KeyListener {
             ball_dir_Y = -2;
             a = 1;
             life--;
+            scores = scores - 5;
         }
 
         // Game Over
